@@ -82,4 +82,4 @@ nix flake check
 Automated upstream bumping:
 
 - `.github/workflows/bump-oh-my-pi.yml` runs daily and on manual dispatch.
-- It checks the latest `can1357/oh-my-pi` release and opens/updates a PR with refreshed `version`, release URLs, and sha256 hashes in `flake.nix`.
+- It checks the latest `can1357/oh-my-pi` release, refreshes `version`, release URLs, and sha256 hashes in `flake.nix`, builds the package (running `omp --version`), and pushes the bump straight to `main`.
