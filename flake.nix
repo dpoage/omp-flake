@@ -21,26 +21,29 @@
           pkgs = import nixpkgs { inherit system; };
           sources = {
             "x86_64-linux" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.0.10/omp-linux-x64";
-              sha256 = "sha256-sT5rKnSlxx5XufcX4PxINLz+BgnzDcF4KpGXayMDYaA=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-linux-x64";
+              sha256 = "sha256-ZJjteFurANKSbgOH4OwCNi1tRfHD0NG1fBYYt/lckmQ=";
             };
             "aarch64-linux" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.0.10/omp-linux-arm64";
-              sha256 = "sha256-boNpGo6I+n6zZSMcRCSljdp9ucwIi/N/rf6YwnsJC3k=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-linux-arm64";
+              sha256 = "sha256-wr4eqFzhfEJwhUtX7/8qfqHVoDx1V/0Ich8rm7MmmN4=";
             };
             "x86_64-darwin" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.0.10/omp-darwin-x64";
-              sha256 = "sha256-QqihRCkmhfC/4Yxtea6T7xhwtv/uN8QujQ5u/+TmNjQ=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-darwin-x64";
+              sha256 = "sha256-q9YtMVtmMU8PY11TdAcDfnsNBnglE9gDVmnbXvdEJC0=";
             };
             "aarch64-darwin" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.0.10/omp-darwin-arm64";
-              sha256 = "sha256-vwJrY6o7CssK++2Ag/drzsE0v1b/276A+3On4Hn+J4o=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-darwin-arm64";
+              sha256 = "sha256-1KENl0iNYFTSsYGYvST0YQeZUsfg+3W6ZjNsoN8MuZ4=";
             };
           };
           srcInfo = sources.${system} or (throw "Unsupported system: ${system}");
+          # No glibc here: LD_LIBRARY_PATH is inherited by every child process
+          # omp spawns, and a foreign glibc on it makes Go+cgo tools (bd, dolt,
+          # ...) abort with "pthread_create failed: Invalid argument". The
+          # patched interpreter already resolves libc on its own.
           linuxLibPath = pkgs.lib.makeLibraryPath [
             pkgs.stdenv.cc.cc.lib
-            pkgs.glibc
             pkgs.openssl
             pkgs.zlib
           ];
@@ -48,7 +51,7 @@
         {
           default = pkgs.stdenv.mkDerivation {
             pname = "oh-my-pi";
-            version = "18.0.10";
+            version = "18.16.0";
 
             src = pkgs.fetchurl {
               inherit (srcInfo) url sha256;
