@@ -57,14 +57,14 @@
             dontUnpack = true;
 
             # Bun-compiled omp binaries on Linux break when auto-patched/stripped by stdenv.
-            nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.isLinux [
+            nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [
               pkgs.bash
               pkgs.makeWrapper
               pkgs.patchelf
             ];
 
             installPhase =
-              if pkgs.stdenv.isLinux then
+              if pkgs.stdenv.hostPlatform.isLinux then
                 ''
                   install -Dm755 "$src" "$out/libexec/omp"
                   patchelf --set-interpreter "${pkgs.stdenv.cc.bintools.dynamicLinker}" "$out/libexec/omp"
@@ -76,9 +76,9 @@
                   install -Dm755 "$src" "$out/bin/omp"
                 '';
 
-            dontStrip = pkgs.stdenv.isLinux;
-            dontPatchELF = pkgs.stdenv.isLinux;
-            doInstallCheck = pkgs.stdenv.isLinux;
+            dontStrip = pkgs.stdenv.hostPlatform.isLinux;
+            dontPatchELF = pkgs.stdenv.hostPlatform.isLinux;
+            doInstallCheck = pkgs.stdenv.hostPlatform.isLinux;
             installCheckPhase = ''
               export HOME="$TMPDIR"
               "$out/bin/omp" --version >/dev/null

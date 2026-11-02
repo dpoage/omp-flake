@@ -1,6 +1,7 @@
 # omp-flake
 
 Nix flake packaging for [Oh My Pi](https://github.com/can1357/oh-my-pi).
+Maintained fork of [cernoh/omp-flake](https://github.com/cernoh/omp-flake).
 
 ## What this flake provides
 
@@ -20,20 +21,20 @@ Supported systems:
 Run directly:
 
 ```bash
-nix run github:cernoh/omp-flake
+nix run github:dpoage/omp-flake
 ```
 
 Build package:
 
 ```bash
-nix build github:cernoh/omp-flake
+nix build github:dpoage/omp-flake
 ```
 
 Use in another flake:
 
 ```nix
 {
-  inputs.omp-flake.url = "github:cernoh/omp-flake";
+  inputs.omp-flake.url = "github:dpoage/omp-flake";
 
   outputs = { self, nixpkgs, omp-flake, ... }: {
     # Example: expose package
