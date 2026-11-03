@@ -87,10 +87,15 @@ jobs:
         if: steps.bump.outputs.version != ''
         run: nix build .#default --print-build-logs
 
-      - name: Commit and push
+      # Commit through the contents API: GitHub attributes it to
+      # github-actions[bot] and signs it, with no local git identity.
+      - name: Commit
         if: steps.bump.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "chore: bump oh-my-pi to v${{ steps.bump.outputs.version }}"
-          git push
+          gh api -X PUT "repos/${{ github.repository }}/contents/flake.nix" \
+            -f message="chore: bump oh-my-pi to v${{ steps.bump.outputs.version }}" \
+            -f content="$(base64 -w0 flake.nix)" \
+            -f sha="$(git rev-parse HEAD:flake.nix)" \
+            -f branch="${{ github.ref_name }}"
