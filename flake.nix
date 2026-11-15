@@ -21,20 +21,20 @@
           pkgs = import nixpkgs { inherit system; };
           sources = {
             "x86_64-linux" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.0/omp-linux-x64";
-              sha256 = "sha256-yGlL6MbmofReNjbdio6eqniHitYpqJAAtAPsXkVtP4k=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.2/omp-linux-x64";
+              sha256 = "sha256-80z6VzEe1npF8BuxohUZytTXSHXRgTFvAPoM1qSryqo=";
             };
             "aarch64-linux" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.0/omp-linux-arm64";
-              sha256 = "sha256-i14ZfbfFi366v4PG8DWX+JuuOnZqhMZIGzqUKhJfXiI=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.2/omp-linux-arm64";
+              sha256 = "sha256-f4CeUWOMKs5wEkSSPV7GJIW7r9dNt12nQqzjDIepHr8=";
             };
             "x86_64-darwin" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.0/omp-darwin-x64";
-              sha256 = "sha256-3Ng4f4jTKlmUUcIcP0Ar3CNkJD6eblYw/37seoY4xPY=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.2/omp-darwin-x64";
+              sha256 = "sha256-SJZnSlAN4+Cu1wAHfGdznOaupezWHRAP/xdBQ9rKaTs=";
             };
             "aarch64-darwin" = {
-              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.0/omp-darwin-arm64";
-              sha256 = "sha256-KxMJsGp0Ouk5cI+Tm2P3XHpDbtCMeVMwnw44fgx5Pq0=";
+              url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.2/omp-darwin-arm64";
+              sha256 = "sha256-4t4JdM5YG/zyBE6nlccS+iQP34ME9720s9gbFU0rV/w=";
             };
           };
           srcInfo = sources.${system} or (throw "Unsupported system: ${system}");
@@ -51,7 +51,7 @@
         {
           default = pkgs.stdenv.mkDerivation {
             pname = "oh-my-pi";
-            version = "18.20.0";
+            version = "18.20.2";
 
             src = pkgs.fetchurl {
               inherit (srcInfo) url sha256;
